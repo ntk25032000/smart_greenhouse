@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greenhouse Web | Smart Greenhouse</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" data-page="dashboard">
+        <div class="brand-icon"><i data-lucide="sprout"></i></div>
+        <div><strong>GREENHOUSE</strong><span>SMART FARM SYSTEM</span></div>
+      </a>
+      <div class="side-label">MENU CHÍNH</div>
+      <nav class="nav-menu">
+        <button class="nav-item active" data-page="dashboard"><i data-lucide="layout-dashboard"></i>Dashboard</button>
+        <button class="nav-item" data-page="charts"><i data-lucide="chart-no-axes-combined"></i>Biểu đồ</button>
+        <button class="nav-item" data-page="settings"><i data-lucide="sliders-horizontal"></i>Cài đặt</button>
+        <button class="nav-item" data-page="history"><i data-lucide="history"></i>Lịch sử</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="system-mini"><span class="pulse-dot"></span><div><b>Hệ thống mô phỏng</b><small>Đang cập nhật dữ liệu</small></div></div>
+        <div class="user-row"><div class="avatar">GH</div><div><b>Greenhouse Admin</b><small>Quản trị viên</small></div><i data-lucide="chevron-down"></i></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><div class="eyebrow">SMART AGRICULTURE / OVERVIEW</div><h1 id="page-title">Tổng quan nhà kính</h1></div>
+        <div class="top-actions"><div class="live-indicator"><span class="pulse-dot"></span> LIVE SIMULATION</div><div class="date-chip"><i data-lucide="calendar-days"></i><span id="current-date">--</span></div></div>
+      </header>
+
+      <section class="page-section active" id="page-dashboard">
+        <div class="welcome-row"><div><h2>Xin chào, quản trị viên <span>👋</span></h2><p>Đây là tình trạng hoạt động hiện tại của nhà kính.</p></div><div class="updated-label"><span class="pulse-dot"></span> Cập nhật tự động mỗi 1,5 giây</div></div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Nhiệt độ không khí</span><span class="stat-icon orange"><i data-lucide="thermometer"></i></span></div><div class="stat-value" id="air-temp">28.5<span>°C</span></div><div class="stat-foot">Nhiệt độ trong nhà kính</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Độ ẩm không khí</span><span class="stat-icon blue"><i data-lucide="droplets"></i></span></div><div class="stat-value" id="air-humidity">68<span>%</span></div><div class="stat-foot">Độ ẩm môi trường</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Khu vực cần tưới</span><span class="stat-icon green"><i data-lucide="sprout"></i></span></div><div class="stat-value" id="need-watering">02<span>/ 03</span></div><div class="stat-foot">Dựa trên ngưỡng độ ẩm</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Van đang hoạt động</span><span class="stat-icon purple"><i data-lucide="waves"></i></span></div><div class="stat-value" id="active-valves">02<span>/ 03</span></div><div class="stat-foot">Trạng thái van tưới</div></article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel greenhouse-panel">
+            <div class="panel-heading"><div><h3>Sơ đồ nhà kính</h3><p>Chọn một khu vực để xem thông tin chi tiết</p></div><span class="live-tag"><span class="pulse-dot"></span> TRỰC TIẾP</span></div>
+            <div class="garden-wrap">
+              <img src="assets/greenhouse.png" alt="Sơ đồ khu vực trồng cây trong nhà kính">
+              <button class="zone zone-1 selected" data-zone="0"><span>KHU VỰC 01</span><b id="zone-moisture-0">35%</b><small>Độ ẩm đất</small></button>
+              <button class="zone zone-2" data-zone="1"><span>KHU VỰC 02</span><b id="zone-moisture-1">55%</b><small>Độ ẩm đất</small></button>
+              <button class="zone zone-3" data-zone="2"><span>KHU VỰC 03</span><b id="zone-moisture-2">28%</b><small>Độ ẩm đất</small></button>
+            </div>
+            <div class="zone-legend"><span><i class="legend-dot healthy"></i>Độ ẩm ổn định</span><span><i class="legend-dot warning"></i>Cần tưới</span><span><i class="legend-dot watering"></i>Đang tưới</span></div>
+          </section>
+
+          <section class="panel control-panel">
+            <div class="panel-heading"><div><h3>Điều khiển hệ thống</h3><p>Quản lý chế độ tưới và trạng thái</p></div><span class="status-pill" id="system-status">ĐANG CHẠY</span></div>
+            <div class="mode-switch"><button class="mode-btn active" id="auto-mode"><i data-lucide="bot"></i>AUTO</button><button class="mode-btn" id="manual-mode"><i data-lucide="hand"></i>MANUAL</button></div>
+            <div class="mode-description" id="mode-description">Hệ thống tự động điều khiển van theo ngưỡng độ ẩm đã cài đặt.</div>
+            <div class="valve-list">
+              <div class="valve-row"><div class="valve-info"><span class="valve-symbol"><i data-lucide="sprout"></i></span><div><b>Khu vực 01</b><small>Van tưới 01</small></div></div><span class="valve-state" id="valve-state-0">ON</span><div class="valve-actions">
+    <button class="valve-command on-command"
+            data-valve-action="on" data-valve="0">
+        ON
+    </button>
+
+    <button class="valve-command off-command"
+            data-valve-action="off" data-valve="0">
+        OFF
+    </button>
+</div></div>
+              <div class="valve-row"><div class="valve-info"><span class="valve-symbol"><i data-lucide="sprout"></i></span><div><b>Khu vực 02</b><small>Van tưới 02</small></div></div><span class="valve-state" id="valve-state-1">OFF</span><div class="valve-actions">
+    <button class="valve-command on-command"
+            data-valve-action="on" data-valve="1">
+        ON
+    </button>
+
+    <button class="valve-command off-command"
+            data-valve-action="off" data-valve="1">
+        OFF
+    </button>
+</div></div>
+              <div class="valve-row"><div class="valve-info"><span class="valve-symbol"><i data-lucide="sprout"></i></span><div><b>Khu vực 03</b><small>Van tưới 03</small></div></div><span class="valve-state" id="valve-state-2">ON</span><div class="valve-actions">
+    <button class="valve-command on-command"
+            data-valve-action="on" data-valve="2">
+        ON
+    </button>
+
+    <button class="valve-command off-command"
+            data-valve-action="off" data-valve="2">
+        OFF
+    </button>
+</div>
+</div>
+            </div>
+            <div class="main-actions">
+    <button class="action-btn start-btn" id="start-btn">
+        START
+    </button>
+
+    <button class="action-btn stop-btn" id="stop-btn">
+        STOP
+    </button>
+</div>
+
+<div class="safety-actions">
+    <button class="reset-btn" id="reset-btn">
+        RESET
+    </button>
+
+    <button class="emergency-btn" id="emergency-btn">
+        EMERGENCY STOP
+    </button>
+</div>
+            <div class="emergency-note">Dừng khẩn cấp sẽ khóa toàn bộ van tưới.</div>
+          </section>
+        </div>
+
+        <section class="panel detail-panel" id="zone-detail">
+          <div class="detail-title"><div class="detail-icon"><i data-lucide="leaf"></i></div><div><h3 id="detail-name">Thông tin khu vực 01</h3><p>Thông số môi trường và tình trạng thực vật</p></div></div>
+          <div class="detail-metrics">
+            <div><span>Độ ẩm đất</span><b id="detail-moisture">35%</b><div class="progress"><i id="detail-moisture-bar" style="width:35%"></i></div></div>
+            <div><span>Nhiệt độ phòng</span><b id="detail-temp">28.5 °C</b><small>Đo tại nhà kính</small></div>
+            <div><span>Tình trạng thực vật</span><b id="detail-plant" class="plant-good">Cần bổ sung nước</b><small id="detail-valve">Van tưới: ĐANG BẬT</small></div>
+          </div>
+        </section>
+      </section>
+
+      <section class="page-section" id="page-charts">
+        <div class="section-intro"><h2>Biểu đồ môi trường</h2><p>Dữ liệu mô phỏng được cập nhật liên tục theo thời gian.</p></div>
+        <div class="chart-grid">
+          <article class="panel chart-panel"><div class="panel-heading"><div><h3>Nhiệt độ không khí</h3><p>Đơn vị: °C</p></div><span class="chart-current" id="chart-temp-value">28.5°C</span></div><canvas id="temperature-chart"></canvas></article>
+          <article class="panel chart-panel"><div class="panel-heading"><div><h3>Độ ẩm không khí</h3><p>Đơn vị: %</p></div><span class="chart-current" id="chart-air-value">68%</span></div><canvas id="air-chart"></canvas></article>
+          <article class="panel chart-panel wide-chart"><div class="panel-heading"><div><h3>Độ ẩm đất theo khu vực</h3><p>So sánh độ ẩm của 3 khu vực</p></div></div><canvas id="soil-chart"></canvas></article>
+        </div>
+      </section>
+
+      <section class="page-section" id="page-settings">
+        <div class="section-intro"><h2>Cài đặt hệ thống</h2><p>Thiết lập ngưỡng độ ẩm và thời gian tưới cho từng khu vực.</p></div>
+        <div class="panel settings-panel"><div class="panel-heading"><div><h3>Thông số tưới tự động</h3><p>Van bật khi độ ẩm thấp hơn ngưỡng bật và tắt khi đạt ngưỡng dừng.</p></div></div>
+          <div class="settings-table-wrap"><table><thead><tr><th>Khu vực</th><th>Ngưỡng bật tưới (%)</th><th>Ngưỡng dừng tưới (%)</th><th>Thời gian tưới (giây)</th></tr></thead><tbody id="settings-rows"></tbody></table></div>
+          <button class="primary-btn" id="save-settings"><i data-lucide="save"></i>Lưu cài đặt</button><span class="save-message" id="save-message"></span>
+        </div>
+      </section>
+
+      <section class="page-section" id="page-history">
+        <div class="section-intro"><h2>Lịch sử hoạt động</h2><p>Nhật ký điều khiển và cảnh báo của hệ thống.</p></div>
+        <div class="panel history-panel"><div class="panel-heading"><div><h3>Nhật ký gần đây</h3><p>Các sự kiện được ghi nhận trong phiên mô phỏng</p></div><button class="text-btn" id="clear-history">Xóa lịch sử</button></div><div id="history-list" class="history-list"></div></div>
+      </section>
+      <footer>GREENHOUSE WEB <span>•</span> Smart greenhouse monitoring & control <span class="footer-right">Simulation mode</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="js/history.js"></script>
+  <script src="js/simulation.js"></script>
+  <script src="js/control.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
